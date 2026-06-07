@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy Data Solutions</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deep: #1a4b8c;
+      --blue-mid: #2563eb;
+      --blue-light: #eff6ff;
+      --accent: #3b82f6;
+      --text-dark: #111827;
+      --text-mid: #374151;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--blue-deep);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue-mid); }
+
+    .nav-cta {
+      background: var(--blue-mid);
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--blue-deep) !important; color: var(--white) !important; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-light) 0%, var(--white) 60%);
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-mid);
+      background: #dbeafe;
+      padding: 0.3rem 0.9rem;
+      border-radius: 99px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-dark);
+      max-width: 700px;
+      margin: 0 auto 1.25rem;
+      line-height: 1.15;
+    }
+
+    .hero h1 span { color: var(--blue-mid); }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--blue-mid);
+      color: var(--white);
+      padding: 0.8rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover { background: var(--blue-deep); transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--blue-mid);
+      padding: 0.8rem 1.8rem;
+      border-radius: 8px;
+      border: 2px solid var(--blue-mid);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover { background: var(--blue-light); }
+
+    /* SECTION SHELL */
+    section { padding: 5rem 2rem; }
+
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-mid);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-bottom: 3rem;
+    }
+
+    /* SERVICES */
+    #services { background: var(--white); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .service-card:hover {
+      box-shadow: 0 8px 24px rgba(37,99,235,0.1);
+      transform: translateY(-2px);
+    }
+
+    .service-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--blue-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+    }
+
+    .service-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ABOUT */
+    #about { background: var(--blue-light); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue-mid);
+      letter-spacing: -0.03em;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* PROCESS */
+    #process { background: var(--white); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+
+    .step {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* CONTACT */
+    #contact { background: var(--blue-deep); color: var(--white); text-align: center; }
+
+    #contact .section-label { color: #93c5fd; }
+    #contact .section-title { color: var(--white); }
+    #contact .section-sub { color: #bfdbfe; max-width: 480px; margin: 0 auto 2.5rem; }
+
+    .contact-form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: #93c5fd; }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: rgba(255,255,255,0.6); }
+
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+
+    .btn-white {
+      display: inline-block;
+      background: var(--white);
+      color: var(--blue-deep);
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      align-self: center;
+      width: 100%;
+    }
+
+    .btn-white:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      background: #0f2a5c;
+      color: #93c5fd;
+      text-align: center;
+      padding: 1.5rem 2rem;
+      font-size: 0.85rem;
+    }
+
+    footer a { color: #93c5fd; text-decoration: none; }
+    footer a:hover { color: var(--white); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Energy Data Solutions</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-eyebrow">Boutique Software for Small Business</span>
+    <h1>Software built around <span>your</span> business</h1>
+    <p>We build custom tools, dashboards, and integrations tailored exactly to the way you work — no bloat, no one-size-fits-all.</p>
+    <div class="btn-group">
+      <a href="#contact" class="btn-primary">Start a Conversation</a>
+      <a href="#services" class="btn-secondary">See What We Do</a>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-inner">
+      <p class="section-label">What We Offer</p>
+      <h2 class="section-title">Solutions that fit your size</h2>
+      <p class="section-sub">We focus on the tools that move the needle for small businesses — practical, maintainable, and built to grow with you.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">&#128200;</div>
+          <h3>Data Dashboards</h3>
+          <p>Turn your spreadsheets and exports into live, actionable dashboards you can check at a glance.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#9881;</div>
+          <h3>Process Automation</h3>
+          <p>Eliminate repetitive manual work with lightweight automations that run quietly in the background.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#128279;</div>
+          <h3>API Integrations</h3>
+          <p>Connect your existing tools — accounting, CRM, scheduling — so data flows without copy-pasting.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#128187;</div>
+          <h3>Custom Web Apps</h3>
+          <p>Purpose-built internal tools and client-facing apps designed specifically for how you operate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="section-label">About Us</p>
+          <h2 class="section-title">Small team. Big focus.</h2>
+          <p>We're a boutique software shop — not a faceless agency. Every project gets our full attention from kickoff to delivery, and you always talk directly to the person building your software.</p>
+          <p>We work best with small businesses that have outgrown spreadsheets but aren't ready (or willing) to pay enterprise prices for off-the-shelf software that almost fits.</p>
+          <p>Our specialty is understanding your actual workflow and building something that slots right in.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Custom built</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">1:1</div>
+            <div class="stat-label">Direct access to your developer</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">SMB</div>
+            <div class="stat-label">Focused on small business</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">Fast</div>
+            <div class="stat-label">Lean process, quick delivery</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="section-inner">
+      <p class="section-label">How It Works</p>
+      <h2 class="section-title">Simple from start to finish</h2>
+      <p class="section-sub">No jargon. No endless requirement docs. Just a clear path from your problem to a working solution.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Discovery Call</h3>
+          <p>We learn about your workflow, your pain points, and what success looks like for you.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Proposal</h3>
+          <p>You get a clear scope, timeline, and fixed price — no surprises.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Build & Iterate</h3>
+          <p>We build in short cycles with regular check-ins so you always know where things stand.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Handoff & Support</h3>
+          <p>We deliver, train, and stay available for questions after launch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <p class="section-label">Get in Touch</p>
+      <h2 class="section-title">Let's talk about your project</h2>
+      <p class="section-sub">Tell us what you're working with and what's slowing you down. We'll get back to you within one business day.</p>
+      <a href="mailto:john@energy-data-solutions.com" class="btn-white" style="display:inline-block;max-width:380px;width:100%;text-align:center;padding:1rem 2rem;background:#fff;color:#1a4b8c;border-radius:8px;font-weight:700;font-size:1rem;text-decoration:none;margin-top:0.5rem;">
+        john@energy-data-solutions.com
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Energy Data Solutions &mdash; Boutique software solutions tailored to your business.</p>
+  </footer>
+
+
+</body>
+</html>
